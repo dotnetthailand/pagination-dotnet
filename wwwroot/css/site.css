@@ -1,0 +1,33 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* For pagination */
+/* RSCSS naming convention*/
+.ellipsis-pagination {
+  color: #fff;
+}
+
+.ellipsis-pagination > .number {
+  display: inline-block;
+  border: #fff solid 1px;
+  padding: 2px;
+  margin: 2px;
+  min-width: 20px;
+  text-align: center;
+}
