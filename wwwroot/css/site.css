@@ -20,14 +20,70 @@ body {
 /* For pagination */
 /* RSCSS naming convention*/
 .ellipsis-pagination {
-  color: #fff;
+  font-size: 1.1rem;
 }
 
-.ellipsis-pagination > .number {
+.ellipsis-pagination > .number,
+.ellipsis-pagination > .previous,
+.ellipsis-pagination > .next,
+.ellipsis-pagination > .current {
   display: inline-block;
-  border: #fff solid 1px;
-  padding: 2px;
-  margin: 2px;
+  border: 1px solid #dee2e6;
+  padding: 5px 10px;
+  margin: 2px 4px;
   min-width: 20px;
   text-align: center;
+  text-decoration: none;
+  color: #212529;
+}
+
+.ellipsis-pagination > .previous {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.ellipsis-pagination > .next {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.ellipsis-pagination > .current {
+  background: #0d6efd;
+  color: #fff;
+  border: #0d6efd;
+}
+
+.ellipsis-pagination > .current,
+.ellipsis-pagination > .ellipsis {
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  .ellipsis-pagination {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.list-item {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.list-item > .item-box {
+  list-style: none;
+  border: 1px solid #dee2e6;
+  padding: 5px 10px;
+  text-align: center;
+  min-width: 120px;
+  min-height: 70px;
+  border-radius: 8px;
+}
+
+.item-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
