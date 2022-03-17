@@ -12,10 +12,10 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<ul>
+<ul class="list-item">
     @foreach (var item in items.Skip(pagination.Offset).Take(pagination.ItemPerPages))
     {
-        <li>@item</li>
+        <li class="item-box">@item</li>
     }
 </ul>
 
