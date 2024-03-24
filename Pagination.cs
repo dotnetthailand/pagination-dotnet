@@ -20,52 +20,75 @@ public class Pagination
     {
         this.totalItemsCount = totalItemsCount;
         this.itemsPerPage = itemsPerPage;
-        this.totalPages = (int)Math.Ceiling((decimal)(this.totalItemsCount / this.itemsPerPage));
+        totalPages = (int)Math.Ceiling((decimal)(this.totalItemsCount / this.itemsPerPage));
 
-        this.currentPage = currentPage < 1 || currentPage > this.totalPages ? 1 : currentPage;
-        this.Offset = this.itemsPerPage * (this.currentPage - 1);
+        this.currentPage = currentPage < 1 || currentPage > totalPages ? 1 : currentPage;
+        Offset = this.itemsPerPage * (this.currentPage - 1);
 
         var prev = this.currentPage - 1;
-        this.previousPage = prev > 0 ? prev : null;
+        previousPage = prev > 0 ? prev : null;
 
         var next = this.currentPage + 1;
-        this.nextPage = next <= this.totalPages ? next : null;
+        nextPage = next <= totalPages ? next : null;
     }
 
-    public IHtmlContent GetPreviousLink(string url)
+    public IHtmlContent GetPageLinks(string baseUrl, object? htmlAttributes = null)
     {
-        if (!this.previousPage.HasValue)
+        var tag = new TagBuilder("div");
+        tag.AddCssClass("ellipsis-pagination");
+        var attributes = GetHtmlAttributeDictionaryOrNull(htmlAttributes);
+        if (attributes != null)
+        {
+            tag.MergeAttributes(attributes);
+        }
+
+        if (totalPages > 1)
+        {
+            tag.InnerHtml.AppendHtml(GetPreviousLink(baseUrl));
+            foreach (var link in GetNumberLinks(baseUrl))
+            {
+                tag.InnerHtml.AppendHtml(link);
+            }
+            tag.InnerHtml.AppendHtml(GetNextLink(baseUrl));
+        }
+
+        return tag;
+    }
+
+    private IHtmlContent GetPreviousLink(string url)
+    {
+        if (!previousPage.HasValue)
         {
             return new HtmlString(string.Empty);
         }
 
         var tag = new TagBuilder("a");
         tag.AddCssClass("previous");
-        tag.Attributes.Add("href", $"{url}?page={this.previousPage}");
+        tag.Attributes.Add("href", $"{url}?page={previousPage}");
         tag.InnerHtml.AppendHtml("< Previous");
         return tag;
     }
 
-    public IHtmlContent GetNextLink(string url)
+    private IHtmlContent GetNextLink(string url)
     {
-        if (!this.nextPage.HasValue)
+        if (!nextPage.HasValue)
         {
             return new HtmlString(string.Empty);
         }
 
         var tag = new TagBuilder("a");
         tag.AddCssClass("next");
-        tag.Attributes.Add("href", $"{url}?page={this.nextPage}");
+        tag.Attributes.Add("href", $"{url}?page={nextPage}");
         tag.InnerHtml.AppendHtml("Next >");
         return tag;
     }
 
-    public IEnumerable<IHtmlContent> GetNumberLinks(string url, int window = 2)
+    private IEnumerable<IHtmlContent> GetNumberLinks(string url, int window = 2)
     {
         var gap = false;
-        for (var i = 1; i <= this.totalPages; i++)
+        for (var i = 1; i <= totalPages; i++)
         {
-            if (window > 0 && i > 1 + window && i < this.totalPages - window && Math.Abs(i - this.currentPage) > window)
+            if (window > 0 && i > 1 + window && i < totalPages - window && Math.Abs(i - currentPage) > window)
             {
                 if (!gap)
                 {
@@ -73,14 +96,13 @@ public class Pagination
                     tag.AddCssClass("ellipsis");
                     tag.InnerHtml.AppendHtml("...");
                     yield return tag;
-
                     gap = true;
                 }
                 continue;
             }
 
             gap = false;
-            if (this.currentPage == i)
+            if (currentPage == i)
             {
                 var tag = new TagBuilder("span");
                 tag.AddCssClass("current");
@@ -96,29 +118,6 @@ public class Pagination
                 yield return tag;
             }
         }
-    }
-
-    public IHtmlContent GetPageLinks(string url, object? htmlAttributes = null)
-    {
-        var tag = new TagBuilder("div");
-        tag.AddCssClass("ellipsis-pagination");
-        var attributes = GetHtmlAttributeDictionaryOrNull(htmlAttributes);
-        if (attributes != null)
-        {
-            tag.MergeAttributes(attributes);
-        }
-
-        if (this.totalPages > 1)
-        {
-            tag.InnerHtml.AppendHtml(this.GetPreviousLink(url));
-            foreach (var link in this.GetNumberLinks(url))
-            {
-                tag.InnerHtml.AppendHtml(link);
-            }
-            tag.InnerHtml.AppendHtml(this.GetNextLink(url));
-        }
-
-        return tag;
     }
 
     // Only need a dictionary if htmlAttributes is non-null. TagBuilder.MergeAttributes() is fine with null.

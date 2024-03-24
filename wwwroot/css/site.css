@@ -20,7 +20,11 @@ body {
 /* For pagination */
 /* RSCSS naming convention*/
 .ellipsis-pagination {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
+  display:flex;
+  justify-content: center;
+  align-items: start;
+  gap: 5px;
 }
 
 .ellipsis-pagination > .number,
@@ -29,12 +33,17 @@ body {
 .ellipsis-pagination > .current {
   display: inline-block;
   border: 1px solid #dee2e6;
-  padding: 5px 10px;
-  margin: 2px 4px;
-  min-width: 20px;
+  padding: 5px 5px;
+  min-width: 25px;
   text-align: center;
   text-decoration: none;
   color: #212529;
+  flex-shrink: 0;
+}
+
+.ellipsis-pagination > .previous,
+.ellipsis-pagination > .next{
+  min-width: 50px;
 }
 
 .ellipsis-pagination > .previous {
@@ -72,12 +81,14 @@ body {
 }
 
 .list-item > .item-box {
+  flex-basis: 100%;
+  flex-grow: 1;
   list-style: none;
   border: 1px solid #dee2e6;
   padding: 5px 10px;
   text-align: center;
-  min-width: 120px;
-  min-height: 70px;
+  /* min-width: 120px; */
+  min-height: 20px;
   border-radius: 8px;
 }
 
