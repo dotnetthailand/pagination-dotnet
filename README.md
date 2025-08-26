@@ -1,6 +1,17 @@
 # pagination-dotnet
 
+## Digg Style Pagination
+
 Pagination code example written in C# and .NET
 
+### preview
 
-<!-- DotNet or dotnet only -->
+![Digg Style Paginationp preview](preview.png)
+
+
+## To run the project
+
+```sh
+
+dotnet run
+```
